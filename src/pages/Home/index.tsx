@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FlatList, Text, TouchableOpacity, View } from 'react-native'
 import { CardSaldo } from '../../components/CardSaldo'
 import { Container, Header, HighlightCard, 
@@ -7,87 +7,70 @@ Photo, User, UserGreeting,
 UserInfo, UserName, UserWrapper, 
 ContainerText, TextRecentes, ContainerCard, TextFilter} from './styles'
 import Card from '../../components/Cards'
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+
+interface DataItem {
+  id: string,
+  title: string,
+  type: string,
+  amount: number,
+  data: string
+}
 
 export default function Home(){
   const [ordem, setOrdem] = useState<'asc' | 'desc'>('asc');
-
+  const [data, setData] = useState<DataItem[]>([])
+  const [subtract, setSubtract] = useState(0)
 
   const user = {
     id: '1',
     name: 'Tiago Oliveira',
-    salario: '2.300,00',
+    salario: 6420,
   }
 
-  const data = [
-    {
-      id: '1',
-      title: 'Burguer King',
-      type: 'alimentação',
-      amount: '48,30',
-      data: '15 Out 2023'
-    },
-    {
-      id: '2',
-      title: 'Uber',
-      type: 'Locomoção',
-      amount: '12,30',
-      data: '25 Out 2019'
-    },
-    {
-      id: '3',
-      title: 'Mercado',
-      type: 'alimentação',
-      amount: '360,00',
-      data: '20 Set 2023'
-    },
-    {
-      id: '4',
-      title: 'Padaria',
-      type: 'alimentação',
-      amount: '15,80',
-      data: '20 Set 2023'
-    },
-    {
-      id: '5',
-      title: 'Internet',
-      type: 'GastoFixo',
-      amount: '100,00',
-      data: '08 Out 2023'
-    },
-    {
-      id: '6',
-      title: 'Aluguel',
-      type: 'GastoFixo',
-      amount: '900,00',
-      data: '05 Out 2023'
-    },
-    {
-      id: '7',
-      title: 'Balinha',
-      type: 'alimentação',
-      amount: '1,00',
-      data: '05 Out 2023'
-    },
-  ]
+  useEffect(() => {
+      const handleData = async () => {
+        const data = await AsyncStorage.getItem('@Gasto:key');
+        if (data) {
+          const parsedData = JSON.parse(data); 
+          setData(parsedData);
+        }
+      }
+      
+      handleData()
+  }, [])
 
-  const ordenarPorAmount = (a: any, b: any) => {
-    // Converta as quantidades para números (remova caracteres não numéricos)
-    const valorA = parseFloat(a.amount.replace(/[^0-9.-]+/g, ''));
-    const valorB = parseFloat(b.amount.replace(/[^0-9.-]+/g, ''));
-
+  const ordenarPorAmount = (a: DataItem, b: DataItem) => {
+    const amountA = a.amount;
+    const amountB = b.amount;
+  
     if (ordem === 'asc') {
-      return valorA - valorB; // Ordem ascendente
+      return amountA - amountB; // Ascending order
     } else {
-      return valorB - valorA; // Ordem descendente
+      return amountB - amountA; // Descending order
     }
   };
-
+  
   const handleFiltroClick = () => {
     setOrdem(ordem === 'asc' ? 'desc' : 'asc');
   };
-
-  const cartoesOrdenados = [...data].sort(ordenarPorAmount); // aplico a ordenação antes de mapear
   
+  const cartoesOrdenados = [...data].sort(ordenarPorAmount);
+
+  useEffect(() => {
+    const Subtract = () => {
+      // Calculate the subtraction by looping through the data array
+      const subtractedAmount = data.reduce((accumulator, item) => {
+        return accumulator - item.amount;
+      }, user.salario); // Use salario as the initial value
+    
+      return subtractedAmount;
+    };
+  
+    setSubtract(Subtract())
+  }, [data])
+
   return (
 		<>
 			<Container>
@@ -108,7 +91,7 @@ export default function Home(){
       </Header>
 
 			<HighlightCard>
-			 <CardSaldo amount={user.salario} />
+			 <CardSaldo amount={subtract} />
 			</HighlightCard>
 
       <ContainerText>
@@ -120,7 +103,7 @@ export default function Home(){
 
       <ContainerCard>
       {cartoesOrdenados.map((item: any) => (
-          <Card key={item.id} data={item} />
+          <Card key={parseInt(item.id, 10)} data={item} />
         ))}
       </ContainerCard>
 		</Container>

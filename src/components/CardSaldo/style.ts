@@ -2,9 +2,6 @@ import styled, { css } from "styled-components/native";
 import { Feather } from "@expo/vector-icons";
 import { RFValue } from "react-native-responsive-fontsize";
 
-interface TypeProps {
-  type: "up" | "down" | "total";
-}
 
 export const Container = styled.View`
   background-color:${({ theme }) => theme.colors.primary};
@@ -19,11 +16,12 @@ export const Container = styled.View`
 export const Header = styled.View`
   flex-direction: row;
   justify-content: space-between;
+  margin-top: -5px;
 `;
 
 export const Title = styled.Text`
   margin-top: 23px;
-  font-size: ${RFValue(14)}px;
+  font-size: ${RFValue(16)}px;
   font-weight: 400;
   color: ${({ theme }) => theme.colors.shape};
 `;
@@ -31,8 +29,8 @@ export const Title = styled.Text`
 
 export const Footer = styled.View``;
 
-export const Amount = styled.Text<TypeProps>`
-  font-size: ${RFValue(24)}px;
+export const Amount = styled.Text`
+  font-size: ${RFValue(28)}px;
   font-weight: medium;
   color: ${({ theme }) => theme.colors.shape};
 `;

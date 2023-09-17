@@ -4,7 +4,7 @@ import { FlatList } from 'react-native';
 
 
 export const Container = styled.SafeAreaView`
-    flex: 1;
+  flex: 1;
 `
 export const Header = styled.View`
   width: 100%;
@@ -69,8 +69,8 @@ export const ContainerText = styled.View`
 
 export const TextRecentes = styled.Text`
   font-size: ${RFValue(14)}px;
-  font-weight: 600;
-  color: ${({ theme }) => theme.colors.text};
+  font-weight: 700;
+  color: #000000;
 `
 
 export const TextFilter = styled.Text`

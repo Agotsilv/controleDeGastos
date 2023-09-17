@@ -21,12 +21,12 @@ export const ContainerIcon = styled.View`
 export const TextTitle = styled.Text`
     font-size: ${RFValue(16)}px;
     font-weight: 800;
-    margin-left: -100px;
+    margin-left: -90px;
 `
 export const TextSubTitle = styled.Text`
   font-size: ${RFValue(14)}px;
   color: #4444;
-  margin-left: -100px;
+  margin-left: -90px;
 `
 
 export const LineView = styled.View`

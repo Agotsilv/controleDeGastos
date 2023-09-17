@@ -9,23 +9,27 @@ import {
 } from "./style";
 
 interface props {
-  amount: string;
+  amount: number;
 }
 
 export function CardSaldo({
   amount,
 }: props) {
+  const formattedAmount = amount.toFixed(2).replace('.', ',');
+
   return (
     <View 
-      style={{ flex: 1, padding: 15 }} // Garanta que a imagem de fundo ocupe todo o espaço do componente
+      style={{ flex: 1, padding: 15 }} 
     >
       <Container>
         <Header>
-          <Title>Salário</Title>
+          <Title>Saldo restante</Title>
         </Header>
 
         <Footer>
-          <Amount>R$ {amount}</Amount>
+        <Amount>
+          R$ {typeof amount === 'number' ? amount.toFixed(2).replace('.', ',') : '0,00'}
+        </Amount>
         </Footer>
       </Container>
     </View>

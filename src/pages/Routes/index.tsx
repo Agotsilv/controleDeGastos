@@ -20,13 +20,11 @@ export default function Routes() {
     if (email === '' || password === '') {
       console.log('Error');
     } else {
-      // Defina authenticated como true para navegar para a rota App
       setAuthenticated(false);
     }
   };
 
   useEffect(() => {
-    // Chame signin() dentro do useEffect para verificar as credenciais no início
     signin();
   }, []);
 

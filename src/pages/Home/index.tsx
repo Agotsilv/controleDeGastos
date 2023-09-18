@@ -46,9 +46,9 @@ export default function Home(){
     const amountB = b.amount;
   
     if (ordem === 'asc') {
-      return amountA - amountB; // Ascending order
+      return amountA - amountB; 
     } else {
-      return amountB - amountA; // Descending order
+      return amountB - amountA; 
     }
   };
   
@@ -60,10 +60,9 @@ export default function Home(){
 
   useEffect(() => {
     const Subtract = () => {
-      // Calculate the subtraction by looping through the data array
       const subtractedAmount = data.reduce((accumulator, item) => {
         return accumulator - item.amount;
-      }, user.salario); // Use salario as the initial value
+      }, user.salario);
     
       return subtractedAmount;
     };

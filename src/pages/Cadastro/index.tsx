@@ -49,17 +49,12 @@ export default function Cadastro(){
       const calculateSum = () => {
         const sum = data.reduce((accumulator, item) => {
           return accumulator + item.amount;
-        }, 0); // 0 is the initial value of the accumulator
+        }, 0); 
         setSoma(sum);
       };
     
       calculateSum();
     }, [data])
-
-
-    // useEffect(() => {
-    //   AsyncStorage.removeItem('@Gasto:key');
-    // })
 
     return(
       <>
